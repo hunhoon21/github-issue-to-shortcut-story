@@ -1,0 +1,5 @@
+name: 'github action for creating shortcut story synchronizing github issue'
+description: "github action to control clubhouse story's workflow state"
+runs:
+  using: "docker"
+  image: "Dockerfile"
