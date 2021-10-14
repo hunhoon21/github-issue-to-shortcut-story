@@ -10,12 +10,12 @@ with open(os.environ["GITHUB_EVENT_PATH"]) as f:
 print(f"github_event: {data}")
 print("-" * 30)
 
-event = os.environ["INPUT_EVENT"]
+label_to_create_shortcut_story = os.environ["INPUT_LABEL_TO_CREATE_SHORTCUT_STORY"]
 shortcut_api_token = os.environ["INPUT_SHORTCUT_API_TOKEN"]
 
-print(f"event: {event}")
+print(f"label_to_create_shortcut_story: {label_to_create_shortcut_story}")
 
-if data["action"] == "labeled" and data["label"]["name"] == event:
+if data["action"] == "labeled" and data["label"]["name"] == label_to_create_shortcut_story:
     url = 'https://api.app.shortcut.com/api/v3/stories'
     headers = {
         'Content-Type': 'application/json',
