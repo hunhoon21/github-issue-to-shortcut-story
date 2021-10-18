@@ -20,7 +20,7 @@ if data["action"] == "labeled" and data["label"]["name"] == label_to_create_shor
     url = 'https://api.app.shortcut.com/api/v3/stories'
     headers = {
         'Content-Type': 'application/json',
-        'Shortcut-Token': '61614d17-06ec-4f5f-87c7-3c5f950731c4'
+        'Shortcut-Token': shortcut_api_token
     }
     body = {
         'name': data["issue"]["title"],
