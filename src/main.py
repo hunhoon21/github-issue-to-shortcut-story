@@ -25,9 +25,9 @@ if data["action"] == "labeled" and data["label"]["name"] == label_to_create_shor
     body = {
         'name': data["issue"]["title"],
         'description': data["issue"]["body"],
-        'workflow_state_id': 500000042,  # productization-unscheduled
-        'group_id': '6077d73c-3f22-4a72-9e2b-b79011865fb5',  # Canvas
-        'project_id': 3238  # Canvas
+        'workflow_state_id': 500000042,  # productization-unscheduled, should be input variable
+        'group_id': '6077d73c-3f22-4a72-9e2b-b79011865fb5',  # Canvas, should be input variable
+        'project_id': 3238  # Canvas, should be input variable
     }
 
     resp = requests.post(url, headers=headers, data=json.dumps(body))
@@ -35,18 +35,24 @@ if data["action"] == "labeled" and data["label"]["name"] == label_to_create_shor
 
     shortcut_story_id = resp.json()["id"]
 
-    comment_body = f"This Github issue is related Shortcut Story num: {shortcut_story_id}"
-
     issue_number = data["issue"]["number"]
-    "https://api.github.com/repos/hunhoon21/github-action/issues/13/comments"
-    repo_url = data["issue"]["url"]
-    url = f"{repo_url}/comments"
+    
+    url = f"{url}/{shortcut_story_id}/comments"
+    body = {
+        "text": f"This story is related to github issue [#{issue_number}](https://github.com/makinarocks/canvas-mvp/issues/{issue_number})"
+    }
+    resp = requests.post(url, headers=headers, data=json.dumps(body))
+    print(resp.json())
+
+    url = f"{data['issue']['url']}/comments"
     headers = {
         "Accept": "application/vnd.github.v3+json",
         "Authorization": f"token {github_token}"
     }
-    comment_body = {"body": comment_body}
-    resp = requests.post(url, headers=headers, data=json.dumps(comment_body))
+    body = {
+        "body": f"This Github issue is related Shortcut Story num: sc-{shortcut_story_id}"
+    }
+    resp = requests.post(url, headers=headers, data=json.dumps(body))
     print(resp.json())
 
 else:
