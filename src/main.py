@@ -84,7 +84,7 @@ elif data["action"] == "unlabeled" and data["label"]["name"] == label_to_create_
             'Shortcut-Token': shortcut_api_token
         }
         resp = requests.delete(url, headers=headers)
-        print(resp.json())
+        print(f"resp.ok: {resp.ok}")
 
 elif data["action"] == "closed" and label_to_create_shortcut_story in [label["name"] for label in data["issue"]["labels"]]:
     comments_url = data["issue"]["comments_url"]
