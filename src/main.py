@@ -72,9 +72,8 @@ elif data["action"] == "unlabeled" and data["label"]["name"] == label_to_create_
 
     story_id = ""
     for comment in comments[::-1]:
-        for text in reg_expr.finditer(comment["body"]):
-            if text:
-                story_id = text[52:]
+        for text in reg_expr.findall(comment["body"]):
+            story_id = text[52:]
         if story_id:
             break
     
@@ -100,9 +99,8 @@ elif data["action"] == "closed" and label_to_create_shortcut_story in [label["na
 
     story_id = ""
     for comment in comments[::-1]:
-        for text in reg_expr.finditer(comment["body"]):
-            if text:
-                story_id = text[52:]
+        for text in reg_expr.findall(comment["body"]):
+            story_id = text[52:]
         if story_id:
             break
     if not story_id:
