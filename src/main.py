@@ -101,7 +101,8 @@ elif data["action"] == "closed" and label_to_create_shortcut_story in [label["na
     story_id = ""
     for comment in comments[::-1]:
         for text in reg_expr.finditer(comment["body"]):
-            story_id = text[52:]
+            if text:
+                story_id = text[52:]
         if story_id:
             break
     if not story_id:
