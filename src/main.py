@@ -73,7 +73,8 @@ elif data["action"] == "unlabeled" and data["label"]["name"] == label_to_create_
     story_id = ""
     for comment in comments[::-1]:
         for text in reg_expr.finditer(comment["body"]):
-            story_id = text[52:]
+            if text:
+                story_id = text[52:]
         if story_id:
             break
     
