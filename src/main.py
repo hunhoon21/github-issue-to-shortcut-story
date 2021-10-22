@@ -1,3 +1,4 @@
+import re
 import os
 import json
 import requests
@@ -56,6 +57,33 @@ if data["action"] == "labeled" and data["label"]["name"] == label_to_create_shor
     }
     resp = requests.post(url, headers=headers, data=json.dumps(body))
     print(resp.json())
+
+elif data["action"] == "unlabeled" and data["label"]["name"] == label_to_create_shortcut_story:
+    comments_url = data["issue"]["comments_url"]
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+        "Authorization": f"token {github_token}"
+    }
+    resp = requests.get(comments_url, headers=headers)
+    comments = resp.json()
+
+    reg_expr = re.compile("This Github issue is related Shortcut Story num: sc-[\d]*")
+
+    story_id = ""
+    for comment in comments[::-1]:
+        for text in reg_expr.finditer(comment["body"]):
+            story_id = text[52:]
+        if story_id:
+            break
+    
+    if story_id:
+        url = f"https://api.app.shortcut.com/api/v3/stories/{story_id}"
+        headers = {
+            'Content-Type': 'application/json',
+            'Shortcut-Token': shortcut_api_token
+        }
+        resp = requests.delete(url, headers=headers)
+        print(resp.json())
 
 else:
     print("this action do not create shortcut story card.")
